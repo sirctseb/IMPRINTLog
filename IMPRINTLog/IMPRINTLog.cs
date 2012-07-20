@@ -68,7 +68,8 @@ namespace IMPRINTLog
 		{
 			// initialize default logger
 			this.Console = new IMPRINTOutputWindow();
-			this.Name = "default";
+			// generate unique name
+			this.Name = Guid.NewGuid().ToString();
 		}
 
 		// Construct with a name and a console
@@ -209,7 +210,7 @@ namespace IMPRINTLog
 		// Unqualified log. always log
 		public bool Log(Object message)
 		{
-			console.AcceptTrace(message);
+			Console.AcceptTrace(message);
 			return true;
 		}
 
