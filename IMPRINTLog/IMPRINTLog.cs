@@ -102,6 +102,7 @@ namespace IMPRINTLogNamespace
 
 		#endregion
 
+		#region Static access to log instances
 		public static IMPRINTLog GetLog(String LogName)
 		{
 			if (logs.ContainsKey(LogName)) return logs[LogName];
@@ -113,6 +114,31 @@ namespace IMPRINTLogNamespace
 			// create new logger with default values and return it?
 			return null;
 		}
+
+		public class LogNotFoundException : Exception
+		{
+			public LogNotFoundException(String LogName) : base("No log with name " + LogName + " found") { }
+		}
+		private static void CheckLogName(String LogName)
+		{
+			if (!logs.ContainsKey(LogName)) throw new LogNotFoundException(LogName);
+		}
+		public static bool LogToLog(String LogName, Object message)
+		{
+			CheckLogName(LogName);
+			return GetLog(LogName).Log(message);
+		}
+		public static bool LogToLog(String LogName, Object message, int Level)
+		{
+			CheckLogName(LogName);
+			return GetLog(LogName).Log(message, Level);
+		}
+		public static bool LogToLog(String LogName, Object message, String group)
+		{
+			CheckLogName(LogName);
+			return GetLog(LogName).Log(message, group);
+		}
+		#endregion
 
 		#region Events
 
