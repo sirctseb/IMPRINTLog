@@ -178,7 +178,7 @@ namespace IMPRINTLogNamespace
 		public int LogLevel { get; set; }
 
 		// The logging groups that are enabled
-		private HashSet<String> groups;
+		private HashSet<String> groups = new HashSet<String>();
 
 		#region Group enabling/disabling
 
