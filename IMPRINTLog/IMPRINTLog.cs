@@ -20,7 +20,7 @@ namespace IMPRINTLogNamespace
 		void AcceptTrace(Object obj);
 
 		// Do any work required when the simulation ends
-		void Finalize();
+		void Close();
 	}
 
 	// Class for logging to IMPRINT output window
@@ -31,7 +31,7 @@ namespace IMPRINTLogNamespace
 			app.AcceptTrace(obj);
 		}
 
-		public void Finalize() { }
+		public void Close() { }
 	}
 
 	// Class for logging to a file
@@ -53,7 +53,7 @@ namespace IMPRINTLogNamespace
 			FileWriter.WriteLine(obj.ToString());
 		}
 
-		public void Finalize()
+		public void Close()
 		{
 			// close file writer
 			FileWriter.Close();
@@ -148,7 +148,7 @@ namespace IMPRINTLogNamespace
 			// finalize logs
 			foreach (IMPRINTLog log in logs.Values)
 			{
-				log.Console.Finalize();
+				log.Console.Close();
 			}
 
 			// clear logs
