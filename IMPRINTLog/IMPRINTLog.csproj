@@ -32,13 +32,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MAAD.Plugins.ImprintPluginLoader">
-      <HintPath>..\..\..\..\..\..\Program Files\IMPRINT Pro 3.5\MAAD.Plugins.ImprintPluginLoader.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files\IMPRINT Pro 3.5\MAAD.Plugins.ImprintPluginLoader.dll</HintPath>
     </Reference>
     <Reference Include="MAAD.Simulator">
-      <HintPath>..\..\..\..\..\..\Program Files\IMPRINT Pro 3.5\MAAD.Simulator.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files\IMPRINT Pro 3.5\MAAD.Simulator.dll</HintPath>
     </Reference>
     <Reference Include="MAAD.Utilities">
-      <HintPath>..\..\..\..\..\..\Program Files\IMPRINT Pro 3.5\MAAD.Utilities.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files\IMPRINT Pro 3.5\MAAD.Utilities.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
