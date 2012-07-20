@@ -20,7 +20,7 @@ namespace IMPRINTLogNamespace
 		void AcceptTrace(Object obj);
 
 		// Do any work required when the simulation ends
-		void Finalize();
+		void Close();
 	}
 
 	// Class for logging to IMPRINT output window
@@ -31,7 +31,7 @@ namespace IMPRINTLogNamespace
 			app.AcceptTrace(obj);
 		}
 
-		public void Finalize() { }
+		public void Close() { }
 	}
 
 	// Class for logging to a file
@@ -53,7 +53,7 @@ namespace IMPRINTLogNamespace
 			FileWriter.WriteLine(obj.ToString());
 		}
 
-		public void Finalize()
+		public void Close()
 		{
 			// close file writer
 			FileWriter.Close();
@@ -102,6 +102,7 @@ namespace IMPRINTLogNamespace
 
 		#endregion
 
+		#region Static access to log instances
 		public static IMPRINTLog GetLog(String LogName)
 		{
 			if (logs.ContainsKey(LogName)) return logs[LogName];
@@ -114,6 +115,31 @@ namespace IMPRINTLogNamespace
 			return null;
 		}
 
+		public class LogNotFoundException : Exception
+		{
+			public LogNotFoundException(String LogName) : base("No log with name " + LogName + " found") { }
+		}
+		private static void CheckLogName(String LogName)
+		{
+			if (!logs.ContainsKey(LogName)) throw new LogNotFoundException(LogName);
+		}
+		public static bool LogToLog(String LogName, Object message)
+		{
+			CheckLogName(LogName);
+			return GetLog(LogName).Log(message);
+		}
+		public static bool LogToLog(String LogName, Object message, int Level)
+		{
+			CheckLogName(LogName);
+			return GetLog(LogName).Log(message, Level);
+		}
+		public static bool LogToLog(String LogName, Object message, String group)
+		{
+			CheckLogName(LogName);
+			return GetLog(LogName).Log(message, group);
+		}
+		#endregion
+
 		#region Events
 
 		private static MAAD.Simulator.Utilities.DNetworkEvent SimulationEndHandler = new MAAD.Simulator.Utilities.DNetworkEvent(OnSimulationComplete);
@@ -122,7 +148,7 @@ namespace IMPRINTLogNamespace
 			// finalize logs
 			foreach (IMPRINTLog log in logs.Values)
 			{
-				log.Console.Finalize();
+				log.Console.Close();
 			}
 
 			// clear logs
