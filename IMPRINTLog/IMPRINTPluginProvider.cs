@@ -8,7 +8,7 @@ using MAAD.Plugins.ImprintPluginLoader;
 [assembly: ImprintPluginAttribute()]
 
 
-namespace IMPRINTLog
+namespace IMPRINTLogNamespace
 {
 	public class IMPRINTLogPlugin : IExternalVariableProvider, IImprintPlugin
 	{
@@ -36,7 +36,7 @@ namespace IMPRINTLog
 		{
 			return new string[]
 			{
-				// "IMPRINTLog"
+				"IMPRINTLogNamespace"
 			};
 		}
 
