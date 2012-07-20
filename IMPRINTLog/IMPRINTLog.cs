@@ -62,16 +62,13 @@ namespace IMPRINTLog
 
 	public class IMPRINTLog : SmartPlugin
 	{
-		public ILogConsole Console
-		{
-			get; set;
-		}
-
+		#region Constructors
 		// Default constructor
 		public IMPRINTLog()
 		{
 			// initialize default logger
-			Console = new IMPRINTOutputWindow();
+			this.Console = new IMPRINTOutputWindow();
+			this.Name = "default";
 		}
 
 		// Construct with a name and a console
@@ -81,22 +78,14 @@ namespace IMPRINTLog
 			this.Console = Console;
 		}
 
+		#endregion
+
 		#region Static members for accessing different logs
 
 		// map from log names to the logs
 		private static Dictionary<String, IMPRINTLog> logs = new Dictionary<String, IMPRINTLog>();
 
-		public static IMPRINTLog GetLog(String LogName)
-		{
-			if (logs.ContainsKey(LogName)) return logs[LogName];
-
-			// TODO what to do if the log doesn't exist?
-			// return null?
-			// throw exception?
-			// return default logger?
-			// create new logger with default values and return it?
-			return null;
-		}
+		#region Factory
 
 		// Create a log with a name and a console
 		public static IMPRINTLog CreateLog(String Name, ILogConsole Console)
@@ -112,7 +101,50 @@ namespace IMPRINTLog
 
 		#endregion
 
+		public static IMPRINTLog GetLog(String LogName)
+		{
+			if (logs.ContainsKey(LogName)) return logs[LogName];
+
+			// TODO what to do if the log doesn't exist?
+			// return null?
+			// throw exception?
+			// return default logger?
+			// create new logger with default values and return it?
+			return null;
+		}
+
+		#region Events
+
+		private static MAAD.Simulator.Utilities.DNetworkEvent SimulationEndHandler = new MAAD.Simulator.Utilities.DNetworkEvent(OnSimulationComplete);
+		public static void OnSimulationComplete(object sender, EventArgs e)
+		{
+			// finalize logs
+			foreach (IMPRINTLog log in logs.Values)
+			{
+				log.Console.Finalize();
+			}
+
+			// clear logs
+			logs.Clear();
+		}
+
+		public static void RegisterEvents()
+		{
+			app.Generator.OnSimulationComplete += SimulationEndHandler;
+		}
+
+		#endregion
+
+		#endregion
+
 		#region Instance members
+
+		// What the Log writes to
+		public ILogConsole Console
+		{
+			get;
+			set;
+		}
 
 		// exception for when we try to set the name to one that already exists
 		public class DuplicateNameException : Exception {

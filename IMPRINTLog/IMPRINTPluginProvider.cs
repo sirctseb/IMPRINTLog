@@ -24,6 +24,8 @@ namespace IMPRINTLog
 
 		public IEnumerable<VariableName> GetExternalVariables()
 		{
+			IMPRINTLog.RegisterEvents();
+
 			return new VariableName[]
 			{
 				new VariableName("IMPRINTLog", typeof(IMPRINTLog))
